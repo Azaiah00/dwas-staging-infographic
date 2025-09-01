@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEEPWORK AI | Food & Restaurant Staging Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background: #121212 !important;
+            background-color: #121212 !important;
+            color: #ffffff !important;
+            min-height: 100vh;
+        }
+        
+        * {
+            color: inherit;
+        }
+        
+        /* Force white text for all elements */
+        h1, h2, h3, h4, h5, h6, p, span, div, li, a {
+            color: inherit !important;
+        }
+        
+        /* Specific overrides for text that should be white */
+        .text-dark, .text-black, .text-gray-900, .text-gray-800, .text-gray-700 {
+            color: #ffffff !important;
+        }
+        
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(229, 62, 62, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(229, 62, 62, 0.03) 0%, transparent 70%);
+            z-index: -1;
+            animation: backgroundMove 25s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundMove {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        /* DeepWork Brand Colors */
+        :root {
+            --deepwork-red: #E53E3E;
+            --deepwork-orange: #FF6B35;
+            --deepwork-cyan: #00D4FF;
+            --deepwork-blue: #0BC5EA;
+            --deepwork-dark: #121212;
+            --deepwork-gray: #B0B0B0;
+            --deepwork-light-gray: #E0E0E0;
+        }
+        
+        /* Glassmorphism Styles */
+        .glass-navbar {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.6),
+                0 12px 24px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--deepwork-red), var(--deepwork-orange), var(--deepwork-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Food-specific gradient */
+        .gradient-text-food {
+            background: linear-gradient(135deg, #F97316, #EF4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Button Styles */
+        .btn-glass-primary {
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.8), rgba(255, 107, 53, 0.8));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glass-primary:hover {
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.9), rgba(255, 107, 53, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(229, 62, 62, 0.4);
+        }
+        
+        .btn-glass-secondary {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.8), rgba(11, 197, 234, 0.8));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glass-secondary:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.9), rgba(11, 197, 234, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.4);
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+            max-height: 320px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 320px;
+                max-height: 380px;
+            }
+        }
+        
+        /* Interactive image comparison slider styling */
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .comparison-slider img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            min-height: 400px;
+            object-fit: cover;
+        }
+        
+        /* Before image overlay styling */
+        .comparison-slider .before-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            border-right: 4px solid #F97316;
+        }
+        
+        .comparison-slider .before-image img {
+            width: 200%;
+            height: 100%;
+            object-fit: cover;
+            object-position: left;
+        }
+        
+        /* Interactive slider handle */
+        .comparison-slider .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #F97316, #EF4444);
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: ew-resize;
+            box-shadow: 
+                0 10px 25px rgba(249, 115, 22, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            z-index: 10;
+            transition: transform 0.2s ease;
+        }
+        
+        .slider-handle:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 
+                0 15px 35px rgba(249, 115, 22, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .slider-handle .arrows {
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Package Card Enhancements */
+        .package-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--deepwork-red), var(--deepwork-orange), var(--deepwork-cyan));
+        }
+        
+        .featured-badge {
+            background: linear-gradient(135deg, #F97316, #EF4444);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 20px rgba(249, 115, 22, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 8px 20px rgba(249, 115, 22, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 
+                    0 12px 30px rgba(249, 115, 22, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+        }
+        
+        /* Glass Input Styles */
+        .glass-input-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.05),
+                0 0 0 4px rgba(249, 115, 22, 0.2);
+            border: 1px solid #F97316;
+        }
+    </style>
+</head>
+<body class="antialiased" style="background-color: #121212; color: #ffffff;">
+
+    <!-- Navigation Header -->
+    <header class="glass-navbar sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html">
+                    <img src="logo.PNG" alt="DEEPWORK AI Logo" class="h-14 w-auto float-animation">
+                </a>
+                <div class="hidden sm:flex flex-col">
+                    <span class="text-lg font-bold text-white">Mouth-Watering Menu Makeovers</span>
+                    <span class="text-sm text-deepwork-orange font-medium">Turn Photos Into Profit • AI-Enhanced Food Styling</span>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-white hover:text-deepwork-cyan transition duration-300 font-medium">Home</a>
+                <a href="#packages" class="text-white hover:text-deepwork-red transition duration-300 font-medium">Pricing</a>
+                <a href="#contact" class="text-white hover:text-deepwork-cyan transition duration-300 font-medium">Contact</a>
+                <a href="#packages" class="btn-glass-primary text-white font-semibold px-6 py-3 rounded-lg">View Packages</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6">
+
+        <!-- Hero Section -->
+        <section class="text-center py-20 md:py-28">
+            <h1 class="text-5xl md:text-7xl font-black text-white leading-tight mb-6">
+                Losing Revenue? Your <span class="gradient-text-food">Photos</span> Are the Reason.
+            </h1>
+            <p class="text-xl md:text-2xl text-deepwork-light-gray max-w-4xl mx-auto mb-10 leading-relaxed">
+                Customers eat with their eyes. Stop losing orders to competitors with better menus. We transform your photos to look fresh, delicious, and irresistible—in hours.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto">
+                <a href="#demo" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">Get a Free Demo Photo →</a>
+                <a href="#packages" class="btn-glass-secondary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">View Packages</a>
+            </div>
+        </section>
+        
+        <!-- Interactive Before/After Demo Section -->
+        <section id="demo" class="mb-24">
+            <div class="glass-card p-8 md:p-12 glass-hover">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4 text-white">
+                        From <span class="text-deepwork-gray">"Meh"</span> to <span class="gradient-text-food">Mouth-Watering</span>
+                    </h2>
+                    <p class="text-deepwork-light-gray text-lg max-w-3xl mx-auto">
+                        See the difference our AI makes. Drag the slider to transform a dull photo into a menu showstopper.
+                    </p>
+                </div>
+                
+                <!-- Interactive image comparison slider -->
+                <div id="image-comparison-slider" class="comparison-slider">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="After AI Enhancement" class="after-image">
+                    <div class="before-image">
+                        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Before AI Enhancement">
+                    </div>
+                    <div class="slider-handle">
+                        <div class="arrows">‹ ›</div>
+                    </div>
+                </div>
+                
+                <!-- Before/after labels -->
+                <div class="flex justify-between mt-6 text-sm font-medium">
+                    <span class="text-deepwork-gray">BEFORE: Original Photo</span>
+                    <span class="gradient-text-food">AFTER: AI Enhanced</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Metrics -->
+        <section class="grid md:grid-cols-3 gap-8 text-center mb-24">
+            <div class="glass-card p-8 glass-hover">
+                <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+                    <span class="text-3xl text-white">📈</span>
+                </div>
+                <p class="text-6xl font-black gradient-text-food mb-4">30%</p>
+                <h3 class="text-2xl font-bold mb-4 text-white">Sales Increase</h3>
+                <p class="text-deepwork-light-gray leading-relaxed">
+                    Restaurants with high-quality photos on their online menus see a sales increase of up to 30%.
+                </p>
+            </div>
+            <div class="glass-card p-8 glass-hover">
+                <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                    <span class="text-3xl text-white">🎯</span>
+                </div>
+                <p class="text-6xl font-black gradient-text mb-4">74%</p>
+                <h3 class="text-2xl font-bold mb-4 text-white">Conversion Rate</h3>
+                <p class="text-deepwork-light-gray leading-relaxed">
+                    74% of first online orders are for items that have an accompanying, high-quality image.
+                </p>
+            </div>
+            <div class="glass-card p-8 glass-hover">
+                <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-red-500 via-orange-500 to-cyan-500 flex items-center justify-center">
+                    <span class="text-3xl text-white">⚡</span>
+                </div>
+                <p class="text-6xl font-black gradient-text mb-4">60x</p>
+                <h3 class="text-2xl font-bold mb-4 text-white">Faster than Text</h3>
+                <p class="text-deepwork-light-gray leading-relaxed">
+                    The human brain processes visuals 60,000 times faster than text, making great photos your best salesperson.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Cost Comparison Section -->
+        <section class="mb-24">
+            <div class="glass-card p-8 md:p-12 glass-hover">
+                <div class="text-center mb-10">
+                    <h2 class="text-4xl font-bold mb-4 text-white">The Cost of a Professional Shoot</h2>
+                    <p class="text-lg text-deepwork-light-gray max-w-3xl mx-auto">
+                        Traditional food photography requires a huge investment in time and money—a luxury small businesses can't afford. We change that.
+                    </p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="costComparisonChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enhanced Packages Section -->
+        <section id="packages" class="mb-24">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-6 text-white">Pricing for Your <span class="gradient-text-food">Menu</span></h2>
+                <p class="text-xl text-deepwork-light-gray max-w-3xl mx-auto leading-relaxed">
+                    Simple, one-time pricing to elevate your entire menu without the hassle.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8 items-stretch max-w-7xl mx-auto">
+                
+                <!-- Appetizer Package -->
+                <div class="glass-card package-card p-8 glass-hover flex flex-col h-full">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full glass flex items-center justify-center">
+                            <span class="text-2xl">🍽️</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-white">Appetizer</h3>
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-5xl font-black text-white">$199</span>
+                            <span class="text-deepwork-light-gray ml-2">/package</span>
+                        </div>
+                        <p class="text-deepwork-light-gray">A great way to test the waters with your top sellers</p>
+                    </div>
+                    
+                    <ul class="space-y-4 text-white mb-8 flex-grow">
+                        <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> <strong>5 Photos Enhanced</strong></li>
+                        <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> Basic Color & Brightness Correction</li>
+                        <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> Professional Styling</li>
+                        <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> 24-Hour Turnaround</li>
+                    </ul>
+                    
+                    <a href="#contact" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</a>
+                </div>
+
+                <!-- Main Course Package - Featured -->
+                <div class="glass-card package-card transform lg:scale-105 flex flex-col h-full relative glass-hover" style="background: rgba(249, 115, 22, 0.08);">
+                    <div class="featured-badge absolute -top-4 left-1/2 transform -translate-x-1/2 text-white text-sm font-bold px-6 py-2 rounded-full uppercase tracking-wide">Most Popular</div>
+                    
+                    <div class="p-8 flex flex-col h-full">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+                                <span class="text-2xl text-white">🍳</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-white">Main Course</h3>
+                            <div class="flex items-center justify-center mb-4">
+                                <span class="text-5xl font-black gradient-text-food">$299</span>
+                                <span class="text-deepwork-light-gray ml-2">/package</span>
+                            </div>
+                            <p class="text-deepwork-light-gray">Elevate your entire core menu for a single low price</p>
+                        </div>
+                        
+                        <ul class="space-y-4 text-white mb-8 flex-grow">
+                            <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> <strong>15 Photos Enhanced</strong></li>
+                            <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> All 'Appetizer' Features</li>
+                            <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> <strong>Video Ads</strong></li>
+                            <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> Brand Logo Integration</li>
+                        </ul>
+                        
+                        <a href="#contact" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Choose Main Course</a>
+                    </div>
+                </div>
+
+                <!-- Full Feast Package -->
+                <div class="glass-card package-card p-8 glass-hover flex flex-col h-full">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-red-500 via-orange-500 to-cyan-500 flex items-center justify-center">
+                            <span class="text-2xl text-white">🍰</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-white">Full Feast</h3>
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-5xl font-black text-white">$699</span>
+                            <span class="text-deepwork-light-gray ml-2">/package</span>
+                        </div>
+                        <p class="text-deepwork-light-gray">For a complete digital menu makeover and maximum sales impact</p>
+                    </div>
+                    
+                    <ul class="space-y-4 text-white mb-8 flex-grow">
+                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>30 Photos Enhanced</strong></li>
+                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> All 'Main Course' Features</li>
+                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>Customizable Promo Banners</strong></li>
+                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> Dedicated Account Manager</li>
+                    </ul>
+                    
+                    <a href="#contact" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Go Full Feast</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Call to Action Footer -->
+    <footer id="contact" class="bg-gradient-to-r from-red-500 to-cyan-400 text-white relative overflow-hidden">
+        <div class="container mx-auto px-6 py-20 text-center relative z-10">
+            <h2 class="text-5xl font-bold mb-6">Ready to Serve Up Success?</h2>
+            <p class="mb-10 max-w-3xl mx-auto text-xl opacity-90 leading-relaxed">
+                Let us prove our value. Send us one photo from your menu and we'll send it back looking irresistible, completely free.
+            </p>
+            
+            <!-- Contact form -->
+            <div class="max-w-2xl mx-auto">
+                <form netlify name="food-contact" method="POST" class="glass-input-container rounded-2xl p-8">
+                    <h3 class="text-2xl font-semibold mb-6">Get Your Free Demo Photo</h3>
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" name="name" placeholder="Your Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
+                            <input type="email" name="email" placeholder="Restaurant Email" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
+                        </div>
+                        <input type="text" name="restaurant" placeholder="Restaurant Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
+                        <textarea name="message" placeholder="Tell us about your menu and photography needs..." rows="3" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300"></textarea>
+                        <input type="hidden" name="_subject" value="New Food Staging Inquiry">
+                        <button type="submit" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full">
+                            Claim Free Staging →
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Contact information -->
+            <div class="mt-12 text-white opacity-90">
+                <p>&copy; 2025 DEEPWORK AI SOLUTIONS. Transforming Restaurant Photography with AI Technology.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DeepWork Brand Color Palette
+        const brandColors = {
+            orange: '#F97316',
+            red: '#EF4444',
+            cyan: '#00D4FF',
+            blue: '#0BC5EA',
+            gray: '#B0B0B0'
+        };
+
+        // Helper function for label wrapping
+        const wrapLabels = (label) => {
+            const max = 16;
+            if (label.length <= max) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > max) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        };
+
+        // Professional cost comparison chart
+        const costCtx = document.getElementById('costComparisonChart').getContext('2d');
+        new Chart(costCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Professional Food Photographer', 'DEEPWORK AI'],
+                datasets: [{
+                    label: 'Estimated Cost',
+                    data: [1299, 399],
+                    backgroundColor: [brandColors.gray, brandColors.orange],
+                    borderColor: [brandColors.gray, brandColors.red],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff',
+                        borderColor: brandColors.orange,
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                return 'Cost: $' + context.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { 
+                            color: 'rgba(255, 255, 255, 0.1)',
+                            borderColor: 'rgba(255, 255, 255, 0.2)'
+                        },
+                        ticks: {
+                            color: '#ffffff',
+                            font: { size: 12 },
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { 
+                            color: '#ffffff', 
+                            font: { size: 14, weight: '500' }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Enhanced image comparison slider functionality
+        const slider = document.getElementById('image-comparison-slider');
+        const beforeImage = slider.querySelector('.before-image');
+        const handle = slider.querySelector('.slider-handle');
+
+        let isDragging = false;
+
+        const startDrag = (e) => {
+            e.preventDefault();
+            isDragging = true;
+            slider.classList.add('dragging');
+        };
+
+        const stopDrag = () => {
+            isDragging = false;
+            slider.classList.remove('dragging');
+        };
+
+        const onDrag = (e) => {
+            if (!isDragging) return;
+            
+            let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            if (clientX === undefined) return;
+            
+            const rect = slider.getBoundingClientRect();
+            let offsetX = clientX - rect.left;
+            let width = slider.offsetWidth;
+            let percentage = Math.max(0, Math.min(100, (offsetX / width) * 100));
+
+            beforeImage.style.width = percentage + '%';
+            handle.style.left = percentage + '%';
+        };
+
+        // Add event listeners for mouse events
+        handle.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', onDrag);
+        
+        // Add event listeners for touch events (mobile support)
+        handle.addEventListener('touchstart', startDrag, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+        document.addEventListener('touchmove', onDrag, { passive: false });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
