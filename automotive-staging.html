@@ -497,7 +497,7 @@
                         <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> Email support</li>
                     </ul>
                     
-                    <a href="#contact" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</a>
+                    <button onclick="openPackageForm('starter', '$199', this)" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</button>
                 </div>
 
                 <!-- Professional Package - Featured -->
@@ -526,7 +526,7 @@
                             <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> Phone & email support</li>
                         </ul>
                         
-                        <a href="#contact" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Choose Professional</a>
+                        <button onclick="openPackageForm('professional', '$399', this)" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Choose Professional</button>
                     </div>
                 </div>
 
@@ -553,7 +553,7 @@
                         <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> Dedicated account manager</li>
                     </ul>
                     
-                    <a href="#contact" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Go Enterprise</a>
+                    <button onclick="openPackageForm('enterprise', '$899', this)" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Go Enterprise</button>
                 </div>
             </div>
             
@@ -579,7 +579,7 @@
             
             <!-- Contact form -->
             <div class="max-w-2xl mx-auto">
-                <form netlify name="automotive-contact" method="POST" class="glass-input-container rounded-2xl p-8">
+                <form netlify name="automotive-free-demo" method="POST" enctype="multipart/form-data" class="glass-input-container rounded-2xl p-8" onsubmit="showAutomotiveThankYou(event)">
                     <h3 class="text-2xl font-semibold mb-6">Get Your Free Demo Image</h3>
                     <div class="space-y-4">
                         <div class="grid md:grid-cols-2 gap-4">
@@ -587,8 +587,22 @@
                             <input type="email" name="email" placeholder="Business Email" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
                         </div>
                         <input type="text" name="dealership" placeholder="Dealership Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
-                        <textarea name="message" placeholder="Tell us about your inventory size and photography needs..." rows="3" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300"></textarea>
-                        <input type="hidden" name="_subject" value="New Automotive Staging Inquiry">
+                        
+                        <!-- Image Upload -->
+                        <div>
+                            <label class="block text-white text-sm font-medium mb-2">Upload Your Vehicle Photo *</label>
+                            <div class="glass-input-container rounded-lg p-4">
+                                <input type="file" name="vehicle-image" accept="image/*" required 
+                                       class="w-full text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-deepwork-cyan file:text-white hover:file:bg-deepwork-blue transition-colors">
+                                <p class="text-deepwork-light-gray text-xs mt-2">
+                                    Upload any vehicle photo - we'll transform it into a showroom-quality image!
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <textarea name="message" placeholder="Vehicle details, specific requests, or questions..." rows="3" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300"></textarea>
+                        <input type="hidden" name="_subject" value="New Automotive Free Demo Request">
+                        <input type="hidden" name="service-type" value="Automotive Staging">
                         <button type="submit" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full">
                             Get My Free Demo Image →
                         </button>
@@ -741,6 +755,288 @@
                 }
             });
         });
+    </script>
+
+    <!-- Package Selection Modal -->
+    <div id="packageModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modalTitle" class="text-2xl font-bold text-white">Get Started with Package</h3>
+                <button onclick="closePackageForm()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Automotive Package Selection Form -->
+            <form netlify name="automotive-package" method="POST" class="space-y-6" onsubmit="showThankYou(event)">
+                <!-- Hidden package details -->
+                <input type="hidden" name="selected-package" id="selectedPackage" value="">
+                <input type="hidden" name="package-price" id="selectedPrice" value="">
+                <input type="hidden" name="service-type" value="Automotive Staging">
+                
+                <!-- Client Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Full Name *</label>
+                        <input type="text" name="client-name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Email Address *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Phone Number *</label>
+                        <input type="tel" name="phone" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Dealership/Company</label>
+                        <input type="text" name="company" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                    </div>
+                </div>
+                
+                <!-- Business Details -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Business Type *</label>
+                        <select name="business-type" required 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                            <option value="">Select Business Type</option>
+                            <option value="dealership-new">New Car Dealership</option>
+                            <option value="dealership-used">Used Car Dealership</option>
+                            <option value="dealership-luxury">Luxury Car Dealership</option>
+                            <option value="rental-company">Car Rental Company</option>
+                            <option value="private-seller">Private Seller</option>
+                            <option value="auction-house">Auto Auction House</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Monthly Inventory Volume</label>
+                        <select name="inventory-volume" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                            <option value="">Select Volume</option>
+                            <option value="1-25">1-25 vehicles</option>
+                            <option value="26-50">26-50 vehicles</option>
+                            <option value="51-100">51-100 vehicles</option>
+                            <option value="100plus">100+ vehicles</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Primary Vehicle Types</label>
+                        <select name="vehicle-types" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                            <option value="">Select Primary Type</option>
+                            <option value="economy">Economy/Compact Cars</option>
+                            <option value="luxury">Luxury Vehicles</option>
+                            <option value="suv-truck">SUVs & Trucks</option>
+                            <option value="sports">Sports Cars</option>
+                            <option value="commercial">Commercial Vehicles</option>
+                            <option value="mixed">Mixed Inventory</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Project Timeline</label>
+                        <select name="timeline" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan">
+                            <option value="">When do you need this?</option>
+                            <option value="asap">ASAP (Rush Available)</option>
+                            <option value="1-week">Within 1 Week</option>
+                            <option value="2-weeks">Within 2 Weeks</option>
+                            <option value="ongoing">Ongoing Partnership</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Project Details & Goals</label>
+                    <textarea name="project-details" rows="4" placeholder="Tell us about your specific needs: number of photos per vehicle, style preferences, marketing goals, etc."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-cyan"></textarea>
+                </div>
+                
+                <!-- Add-On Services -->
+                <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg">
+                    <h4 class="text-white font-semibold mb-3">Additional Services (Optional)</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="360-views" class="mr-2">
+                            360° Vehicle Views - +$50/vehicle
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="video-walkaround" class="mr-2">
+                            Video Walkaround - +$75/vehicle
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="brand-overlay" class="mr-2">
+                            Dealership Brand Overlay - +$25/photo
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="bulk-discount" class="mr-2">
+                            Interested in Volume Discounts
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Marketing Preferences -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive updates about new DeepWork AI automotive solutions
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closePackageForm()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Submit Request →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Automotive Staging Package Request">
+            </form>
+        </div>
+    </div>
+
+    <script>
+    // Package selection functions
+    function openPackageForm(packageName, price, element) {
+        const modal = document.getElementById('packageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const selectedPackage = document.getElementById('selectedPackage');
+        const selectedPrice = document.getElementById('selectedPrice');
+        
+        // Update modal content
+        modalTitle.textContent = `Get Started with ${packageName.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+        selectedPackage.value = packageName;
+        selectedPrice.value = price;
+        
+        // Show modal
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePackageForm() {
+        const modal = document.getElementById('packageModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('packageModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePackageForm();
+        }
+    });
+
+    // Show thank you message after form submission
+    function showThankYou(event) {
+        event.preventDefault();
+        
+        // Get form data
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            // Show success message
+            const modal = document.getElementById('packageModal');
+            const packageName = formData.get('selected-package').replace('-', ' ');
+            const clientName = formData.get('client-name');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
+                    <div class="mb-6">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                        <p class="text-deepwork-light-gray text-lg mb-6">
+                            Your ${packageName.replace(/\b\w/g, l => l.toUpperCase())} automotive package request has been submitted successfully.
+                        </p>
+                        <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                            <p class="text-white text-sm">
+                                <strong>What's next?</strong><br>
+                                Our automotive specialists will review your dealership needs and contact you within 2-4 hours to discuss inventory solutions.
+                            </p>
+                        </div>
+                        <button onclick="closePackageForm()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again or contact us directly.');
+        });
+    }
+
+    // Show thank you message for automotive free demo
+    function showAutomotiveThankYou(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(() => {
+            const clientName = formData.get('name');
+            const dealership = formData.get('dealership');
+            
+            // Replace form with thank you message
+            form.parentElement.innerHTML = `
+                <div class="glass-input-container rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                    <p class="text-white text-lg mb-6">
+                        Your free automotive demo request from ${dealership} has been submitted successfully!
+                    </p>
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                        <p class="text-white text-sm">
+                            <strong>What happens next?</strong><br>
+                            • We'll enhance your vehicle photo with showroom-quality staging<br>
+                            • Send the professional result within 24 hours<br>
+                            • Include pricing options for ongoing services<br>
+                            • Completely free with no obligations!
+                        </p>
+                    </div>
+                    <p class="text-deepwork-light-gray text-sm">
+                        Perfect for testing our quality before committing to larger projects!
+                    </p>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again.');
+        });
+    }
     </script>
 </body>
 </html>

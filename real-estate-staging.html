@@ -420,7 +420,7 @@
             <h1 class="hero-title text-5xl md:text-7xl font-black text-white leading-tight mb-6 text-shadow-custom">Transform Properties with <span class="gradient-text">AI Magic</span></h1>
             <p class="text-xl md:text-2xl text-deepwork-light-gray max-w-4xl mx-auto mb-10 leading-relaxed">Revolutionary virtual staging that sells homes 73% faster and increases offers by 20%. Professional results in hours, not weeks.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto">
-                <a href="#cta" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">Get Free Sample →</a>
+                <button onclick="openFreeStagingForm()" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">Get Free Demo Photo →</button>
                 <a href="#packages" class="btn-glass-outline text-deepwork-cyan font-semibold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">View Pricing</a>
             </div>
         </section>
@@ -528,7 +528,7 @@
                         <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> Print, Web, & Social Media Ready Files</li>
                     </ul>
                     
-                    <a href="#cta" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</a>
+                    <button onclick="openPackageForm('quick-start', '$49', this)" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</button>
                 </div>
 
                 <!-- Pro Package - Featured -->
@@ -556,7 +556,7 @@
                         <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> <strong>2 Free Revision Rounds</strong></li>
                     </ul>
                     
-                    <a href="#cta" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Choose Professional</a>
+                    <button onclick="openPackageForm('professional', '$149', this)" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Choose Professional</button>
                 </div>
 
                 <!-- Premium Package -->
@@ -568,21 +568,21 @@
                         <h3 class="text-2xl font-bold mb-2 text-white">Luxury Suite</h3>
                         <div class="flex items-center justify-center mb-4">
                             <span class="text-5xl font-black text-white">$499</span>
-                            <span class="text-deepwork-light-gray ml-2">/project</span>
+                            <span class="text-deepwork-light-gray ml-2">/month</span>
                         </div>
                         <p class="text-deepwork-light-gray">For luxury listings & maximum impact</p>
                     </div>
                     
                     <ul class="space-y-4 text-white mb-8 flex-grow">
-                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>20 High-Resolution Staged Photos</strong></li>
+                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>Unlimited High-Resolution Staged Photos</strong></li>
                         <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> All Professional Features</li>
-                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>2 Animated Video Walkthroughs</strong></li>
+                        <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>4 Animated Video Walkthroughs</strong></li>
                         <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> Dedicated Account Manager</li>
                         <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> <strong>Same-Day Rush Available</strong></li>
                         <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> Unlimited Revisions</li>
                     </ul>
                     
-                    <a href="#cta" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Go Luxury</a>
+                    <button onclick="openPackageForm('luxury-suite', '$499/month', this)" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Go Luxury</button>
                 </div>
             </div>
             
@@ -652,12 +652,11 @@
             <p class="mb-10 max-w-3xl mx-auto text-xl opacity-90 leading-relaxed">See the DeepWork difference for yourself. Upload one photo and we'll stage it for FREE. No commitment, no credit card required.</p>
             
             <div class="max-w-2xl mx-auto">
-                <!-- Email Form using Formspree (Replace YOUR_FORM_ID with actual Formspree form ID) -->
-                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="glass-input-container rounded-2xl p-6 mb-8">
+                <!-- Email Form using Netlify Forms -->
+                <form netlify name="newsletter-signup" method="POST" class="glass-input-container rounded-2xl p-6 mb-8" onsubmit="showNewsletterThankYou(event)">
                     <div class="flex flex-col lg:flex-row gap-4">
                         <input type="email" name="email" placeholder="Enter your professional email address" class="glass-input flex-1 px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
-                        <input type="hidden" name="_subject" value="New Lead from DeepWork AI Website">
-                        <input type="hidden" name="_next" value="thank-you.html">
+                        <input type="hidden" name="_subject" value="New Newsletter Signup from DeepWork AI Website">
                         <button type="submit" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg whitespace-nowrap">Claim Free Staging</button>
                     </div>
                 </form>
@@ -910,6 +909,423 @@
                 }
             });
         });
+    </script>
+
+    <!-- Package Selection Modal -->
+    <div id="packageModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modalTitle" class="text-2xl font-bold text-white">Get Started with Package</h3>
+                <button onclick="closePackageForm()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Package Selection Form -->
+            <form netlify name="real-estate-package" method="POST" class="space-y-6" onsubmit="showThankYou(event)">
+                <!-- Hidden package details -->
+                <input type="hidden" name="selected-package" id="selectedPackage" value="">
+                <input type="hidden" name="package-price" id="selectedPrice" value="">
+                <input type="hidden" name="service-type" value="Real Estate Staging">
+                
+                <!-- Client Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Full Name *</label>
+                        <input type="text" name="client-name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Email Address *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Phone Number *</label>
+                        <input type="tel" name="phone" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Company/Agency</label>
+                        <input type="text" name="company" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                </div>
+                
+                <!-- Project Details -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Property Type *</label>
+                        <select name="property-type" required 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                            <option value="">Select Property Type</option>
+                            <option value="residential-single">Single Family Home</option>
+                            <option value="residential-condo">Condo/Townhouse</option>
+                            <option value="residential-luxury">Luxury Estate</option>
+                            <option value="commercial">Commercial Property</option>
+                            <option value="rental">Rental Property</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Property Size</label>
+                        <select name="property-size" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                            <option value="">Select Size</option>
+                            <option value="1-2-bed">1-2 Bedrooms</option>
+                            <option value="3-4-bed">3-4 Bedrooms</option>
+                            <option value="5plus-bed">5+ Bedrooms</option>
+                            <option value="commercial">Commercial Space</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Project Timeline</label>
+                    <select name="timeline" 
+                            class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                        <option value="">When do you need this completed?</option>
+                        <option value="asap">ASAP (Rush Available)</option>
+                        <option value="1-week">Within 1 Week</option>
+                        <option value="2-weeks">Within 2 Weeks</option>
+                        <option value="1-month">Within 1 Month</option>
+                        <option value="flexible">Flexible Timeline</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Additional Details</label>
+                    <textarea name="project-details" rows="4" placeholder="Tell us about your property, specific rooms needed, style preferences, or any special requirements..."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red"></textarea>
+                </div>
+                
+                <!-- Budget & Preferences -->
+                <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg">
+                    <h4 class="text-white font-semibold mb-3">Additional Services (Optional)</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="rush-delivery" class="mr-2">
+                            Rush Delivery (Same Day) - +$50
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="extra-revisions" class="mr-2">
+                            Extra Revisions - +$25
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="video-walkthrough" class="mr-2">
+                            Video Walkthrough - +$99
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Marketing Preferences -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive updates about new DeepWork AI services and special offers
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closePackageForm()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Submit Request →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Real Estate Staging Package Request">
+            </form>
+        </div>
+    </div>
+
+    <!-- Free Staging Demo Modal -->
+    <div id="freeStagingModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-lg w-full mx-4 p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Get Your Free Demo Photo</h3>
+                <button onclick="closeFreeStagingForm()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Free Staging Form -->
+            <form netlify name="free-staging-demo" method="POST" enctype="multipart/form-data" class="space-y-6" onsubmit="showFreeStagingThankYou(event)">
+                <input type="hidden" name="service-type" value="Real Estate Staging">
+                
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <span class="text-2xl text-white">🎁</span>
+                    </div>
+                    <p class="text-deepwork-light-gray">
+                        Upload a photo of your property and we'll send back a professionally staged version for FREE!
+                    </p>
+                </div>
+                
+                <!-- Client Information -->
+                <div class="grid gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Your Name *</label>
+                        <input type="text" name="name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Email Address *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                </div>
+                
+                <!-- Image Upload -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Upload Your Photo *</label>
+                    <div class="glass-input-container rounded-lg p-4">
+                        <input type="file" name="demo-image" accept="image/*" required 
+                               class="w-full text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-deepwork-red file:text-white hover:file:bg-deepwork-orange transition-colors">
+                        <p class="text-deepwork-light-gray text-xs mt-2">
+                            Accepted formats: JPG, PNG, HEIC. Max size: 10MB.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Property Details -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Room/Area Type</label>
+                    <select name="room-type" 
+                            class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                        <option value="">Select room type (optional)</option>
+                        <option value="living-room">Living Room</option>
+                        <option value="bedroom">Bedroom</option>
+                        <option value="kitchen">Kitchen</option>
+                        <option value="dining-room">Dining Room</option>
+                        <option value="bathroom">Bathroom</option>
+                        <option value="exterior">Exterior</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Brief Description (Optional)</label>
+                    <textarea name="description" rows="3" placeholder="Any specific details about the room or staging preferences..."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red"></textarea>
+                </div>
+                
+                <!-- Marketing Consent -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive staging tips and special offers from DeepWork AI
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closeFreeStagingForm()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Get Free Demo →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Free Staging Demo Request">
+            </form>
+        </div>
+    </div>
+
+    <script>
+    // Package selection functions
+    function openPackageForm(packageName, price, element) {
+        const modal = document.getElementById('packageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const selectedPackage = document.getElementById('selectedPackage');
+        const selectedPrice = document.getElementById('selectedPrice');
+        
+        // Update modal content
+        modalTitle.textContent = `Get Started with ${packageName.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+        selectedPackage.value = packageName;
+        selectedPrice.value = price;
+        
+        // Show modal
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePackageForm() {
+        const modal = document.getElementById('packageModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('packageModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePackageForm();
+        }
+    });
+
+    // Show thank you message after form submission
+    function showThankYou(event) {
+        event.preventDefault();
+        
+        // Get form data
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            // Show success message
+            const modal = document.getElementById('packageModal');
+            const packageName = formData.get('selected-package').replace('-', ' ');
+            const clientName = formData.get('client-name');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
+                    <div class="mb-6">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                        <p class="text-deepwork-light-gray text-lg mb-6">
+                            Your ${packageName.replace(/\b\w/g, l => l.toUpperCase())} package request has been submitted successfully.
+                        </p>
+                        <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                            <p class="text-white text-sm">
+                                <strong>What's next?</strong><br>
+                                Our team will review your request and contact you within 2-4 hours to discuss your project details and next steps.
+                            </p>
+                        </div>
+                        <button onclick="closePackageForm()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again or contact us directly.');
+        });
+    }
+
+    // Free staging demo functions
+    function openFreeStagingForm() {
+        const modal = document.getElementById('freeStagingModal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFreeStagingForm() {
+        const modal = document.getElementById('freeStagingModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Show thank you message for free staging
+    function showFreeStagingThankYou(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(() => {
+            const modal = document.getElementById('freeStagingModal');
+            const clientName = formData.get('name');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                    <p class="text-deepwork-light-gray text-lg mb-6">
+                        Your free demo request has been submitted! We'll send your professionally staged photo within 24 hours.
+                    </p>
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                        <p class="text-white text-sm">
+                            <strong>What happens next?</strong><br>
+                            • We'll review your uploaded photo<br>
+                            • Apply professional AI staging<br>
+                            • Send the result to your email within 24 hours<br>
+                            • No cost, no commitment!
+                        </p>
+                    </div>
+                    <button onclick="closeFreeStagingForm()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                        Awesome!
+                    </button>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again.');
+        });
+    }
+
+    // Close free staging modal when clicking outside
+    document.getElementById('freeStagingModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeFreeStagingForm();
+        }
+    });
+
+    // Newsletter signup thank you
+    function showNewsletterThankYou(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            // Replace form with thank you message
+            form.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">You're All Set!</h3>
+                    <p class="text-white text-lg mb-6">
+                        Thank you for joining our mailing list! We'll send you staging tips and special offers.
+                    </p>
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg">
+                        <p class="text-white text-sm">
+                            <strong>Want to try our service now?</strong><br>
+                            Click "Get Free Demo Photo" above to upload a property photo and receive a professionally staged version within 24 hours!
+                        </p>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again.');
+        });
+    }
     </script>
 </body>
 </html>

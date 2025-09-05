@@ -354,7 +354,7 @@
                 Customers eat with their eyes. Stop losing orders to competitors with better menus. We transform your photos to look fresh, delicious, and irresistible—in hours.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto">
-                <a href="#demo" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">Get a Free Demo Photo →</a>
+                <button onclick="openFreeFoodDemo()" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">Get a Free Demo Photo →</button>
                 <a href="#packages" class="btn-glass-secondary text-white font-bold px-8 py-4 rounded-lg text-lg w-full sm:w-auto">View Packages</a>
             </div>
         </section>
@@ -471,7 +471,7 @@
                         <li class="flex items-start"><span class="text-deepwork-cyan mr-3 mt-1 text-lg">✓</span> 24-Hour Turnaround</li>
                     </ul>
                     
-                    <a href="#contact" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</a>
+                    <button onclick="openPackageForm('appetizer', '$199', this)" class="w-full text-center glass-dark text-white font-semibold py-4 rounded-lg hover:bg-opacity-80 transition duration-300 mt-auto">Get Started</button>
                 </div>
 
                 <!-- Main Course Package - Featured -->
@@ -498,7 +498,7 @@
                             <li class="flex items-start"><span class="text-deepwork-red mr-3 mt-1 text-lg">✓</span> Brand Logo Integration</li>
                         </ul>
                         
-                        <a href="#contact" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Choose Main Course</a>
+                        <button onclick="openPackageForm('main-course', '$299', this)" class="w-full text-center btn-glass-primary text-white font-semibold py-4 rounded-lg mt-auto">Choose Main Course</button>
                     </div>
                 </div>
 
@@ -523,7 +523,7 @@
                         <li class="flex items-start"><span class="gradient-text mr-3 mt-1 text-lg">✓</span> Dedicated Account Manager</li>
                     </ul>
                     
-                    <a href="#contact" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Go Full Feast</a>
+                    <button onclick="openPackageForm('full-feast', '$699', this)" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Go Full Feast</button>
                 </div>
             </div>
         </section>
@@ -540,7 +540,7 @@
             
             <!-- Contact form -->
             <div class="max-w-2xl mx-auto">
-                <form netlify name="food-contact" method="POST" class="glass-input-container rounded-2xl p-8">
+                <form netlify name="food-free-demo" method="POST" enctype="multipart/form-data" class="glass-input-container rounded-2xl p-8" onsubmit="showFoodThankYou(event)">
                     <h3 class="text-2xl font-semibold mb-6">Get Your Free Demo Photo</h3>
                     <div class="space-y-4">
                         <div class="grid md:grid-cols-2 gap-4">
@@ -548,8 +548,22 @@
                             <input type="email" name="email" placeholder="Restaurant Email" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
                         </div>
                         <input type="text" name="restaurant" placeholder="Restaurant Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
-                        <textarea name="message" placeholder="Tell us about your menu and photography needs..." rows="3" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300"></textarea>
-                        <input type="hidden" name="_subject" value="New Food Staging Inquiry">
+                        
+                        <!-- Image Upload -->
+                        <div>
+                            <label class="block text-white text-sm font-medium mb-2">Upload Your Food Photo *</label>
+                            <div class="glass-input-container rounded-lg p-4">
+                                <input type="file" name="food-image" accept="image/*" required 
+                                       class="w-full text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-red-500 transition-colors">
+                                <p class="text-deepwork-light-gray text-xs mt-2">
+                                    Upload any food photo - we'll make it irresistibly appetizing!
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <textarea name="message" placeholder="Tell us about the dish, cuisine type, or specific styling requests..." rows="3" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300"></textarea>
+                        <input type="hidden" name="_subject" value="New Food Free Demo Request">
+                        <input type="hidden" name="service-type" value="Food & Restaurant Staging">
                         <button type="submit" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg w-full">
                             Claim Free Staging →
                         </button>
@@ -711,6 +725,298 @@
                 }
             });
         });
+    </script>
+
+    <!-- Package Selection Modal -->
+    <div id="packageModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modalTitle" class="text-2xl font-bold text-white">Get Started with Package</h3>
+                <button onclick="closePackageForm()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Food Package Selection Form -->
+            <form netlify name="food-package" method="POST" class="space-y-6" onsubmit="showThankYou(event)">
+                <!-- Hidden package details -->
+                <input type="hidden" name="selected-package" id="selectedPackage" value="">
+                <input type="hidden" name="package-price" id="selectedPrice" value="">
+                <input type="hidden" name="service-type" value="Food & Restaurant Staging">
+                
+                <!-- Client Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Full Name *</label>
+                        <input type="text" name="client-name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Email Address *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Phone Number *</label>
+                        <input type="tel" name="phone" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Restaurant/Business Name</label>
+                        <input type="text" name="restaurant-name" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                </div>
+                
+                <!-- Restaurant Details -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Restaurant Type *</label>
+                        <select name="restaurant-type" required 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">Select Restaurant Type</option>
+                            <option value="fast-casual">Fast Casual</option>
+                            <option value="fine-dining">Fine Dining</option>
+                            <option value="cafe-bakery">Cafe/Bakery</option>
+                            <option value="food-truck">Food Truck</option>
+                            <option value="catering">Catering Service</option>
+                            <option value="delivery-only">Delivery/Ghost Kitchen</option>
+                            <option value="bar-pub">Bar/Pub</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Cuisine Type</label>
+                        <select name="cuisine-type" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">Select Cuisine</option>
+                            <option value="american">American</option>
+                            <option value="italian">Italian</option>
+                            <option value="mexican">Mexican</option>
+                            <option value="asian">Asian</option>
+                            <option value="mediterranean">Mediterranean</option>
+                            <option value="fusion">Fusion</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Menu Size</label>
+                        <select name="menu-size" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">How many menu items?</option>
+                            <option value="5-15">5-15 items</option>
+                            <option value="16-30">16-30 items</option>
+                            <option value="31-50">31-50 items</option>
+                            <option value="50plus">50+ items</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Project Timeline</label>
+                        <select name="timeline" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">When do you need this?</option>
+                            <option value="asap">ASAP (Rush Available)</option>
+                            <option value="1-week">Within 1 Week</option>
+                            <option value="2-weeks">Within 2 Weeks</option>
+                            <option value="1-month">Within 1 Month</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Current Challenges & Goals</label>
+                    <textarea name="project-details" rows="4" placeholder="Tell us about your current menu photos, marketing goals, target customers, and what success looks like for your restaurant..."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                </div>
+                
+                <!-- Add-On Services -->
+                <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg">
+                    <h4 class="text-white font-semibold mb-3">Additional Services (Optional)</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="social-media-content" class="mr-2">
+                            Social Media Content Package - +$99
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="menu-design" class="mr-2">
+                            Menu Design Service - +$199
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="ongoing-monthly" class="mr-2">
+                            Interested in Monthly Ongoing Service
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="add-ons" value="video-content" class="mr-2">
+                            Video Content Creation - +$149
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Marketing Preferences -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive restaurant marketing tips and DeepWork AI updates
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closePackageForm()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Submit Request →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Food & Restaurant Staging Package Request">
+            </form>
+        </div>
+    </div>
+
+    <script>
+    // Package selection functions
+    function openPackageForm(packageName, price, element) {
+        const modal = document.getElementById('packageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const selectedPackage = document.getElementById('selectedPackage');
+        const selectedPrice = document.getElementById('selectedPrice');
+        
+        // Update modal content
+        modalTitle.textContent = `Get Started with ${packageName.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+        selectedPackage.value = packageName;
+        selectedPrice.value = price;
+        
+        // Show modal
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePackageForm() {
+        const modal = document.getElementById('packageModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('packageModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePackageForm();
+        }
+    });
+
+    // Show thank you message after form submission
+    function showThankYou(event) {
+        event.preventDefault();
+        
+        // Get form data
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            // Show success message
+            const modal = document.getElementById('packageModal');
+            const packageName = formData.get('selected-package').replace('-', ' ');
+            const clientName = formData.get('client-name');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
+                    <div class="mb-6">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                        <p class="text-deepwork-light-gray text-lg mb-6">
+                            Your ${packageName.replace(/\b\w/g, l => l.toUpperCase())} food staging package request has been submitted successfully.
+                        </p>
+                        <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                            <p class="text-white text-sm">
+                                <strong>What's next?</strong><br>
+                                Our food photography experts will review your restaurant needs and contact you within 2-4 hours to discuss your menu transformation.
+                            </p>
+                        </div>
+                        <button onclick="closePackageForm()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again or contact us directly.');
+        });
+    }
+
+    // Free food demo functions
+    function openFreeFoodDemo() {
+        document.getElementById('contact').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
+    // Show thank you message for food free demo
+    function showFoodThankYou(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(() => {
+            const clientName = formData.get('name');
+            const restaurant = formData.get('restaurant');
+            
+            // Replace form with thank you message
+            form.parentElement.innerHTML = `
+                <div class="glass-input-container rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                    <p class="text-white text-lg mb-6">
+                        Your free food staging demo for ${restaurant} has been submitted successfully!
+                    </p>
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                        <p class="text-white text-sm">
+                            <strong>What happens next?</strong><br>
+                            • We'll transform your food photo into a mouth-watering masterpiece<br>
+                            • Send the enhanced image within 24 hours<br>
+                            • Include menu optimization recommendations<br>
+                            • Absolutely free - perfect for testing our quality!
+                        </p>
+                    </div>
+                    <p class="text-deepwork-light-gray text-sm">
+                        Get ready to see your food in a whole new light! 🍽️
+                    </p>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again.');
+        });
+    }
     </script>
 </body>
 </html>
