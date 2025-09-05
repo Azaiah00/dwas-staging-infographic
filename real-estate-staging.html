@@ -656,6 +656,7 @@
                 <form netlify name="newsletter-signup" method="POST" class="glass-input-container rounded-2xl p-6 mb-8" onsubmit="showNewsletterThankYou(event)">
                     <div class="flex flex-col lg:flex-row gap-4">
                         <input type="email" name="email" placeholder="Enter your professional email address" class="glass-input flex-1 px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
+                        <input type="hidden" name="form-name" value="newsletter-signup">
                         <input type="hidden" name="_subject" value="New Newsletter Signup from DeepWork AI Website">
                         <button type="submit" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg whitespace-nowrap">Claim Free Staging</button>
                     </div>
@@ -922,6 +923,7 @@
             <!-- Package Selection Form -->
             <form netlify name="real-estate-package" method="POST" class="space-y-6" onsubmit="showThankYou(event)">
                 <!-- Hidden package details -->
+                <input type="hidden" name="form-name" value="real-estate-package">
                 <input type="hidden" name="selected-package" id="selectedPackage" value="">
                 <input type="hidden" name="package-price" id="selectedPrice" value="">
                 <input type="hidden" name="service-type" value="Real Estate Staging">
@@ -1054,6 +1056,7 @@
             
             <!-- Free Staging Form -->
             <form netlify name="free-staging-demo" method="POST" enctype="multipart/form-data" class="space-y-6" onsubmit="showFreeStagingThankYou(event)">
+                <input type="hidden" name="form-name" value="free-staging-demo">
                 <input type="hidden" name="service-type" value="Real Estate Staging">
                 
                 <div class="text-center mb-6">
@@ -1243,7 +1246,8 @@
         // Submit to Netlify
         fetch('/', {
             method: 'POST',
-            body: formData
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
         })
         .then(() => {
             const modal = document.getElementById('freeStagingModal');

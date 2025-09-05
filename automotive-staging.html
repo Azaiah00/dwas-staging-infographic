@@ -582,6 +582,7 @@
                 <form netlify name="automotive-free-demo" method="POST" enctype="multipart/form-data" class="glass-input-container rounded-2xl p-8" onsubmit="showAutomotiveThankYou(event)">
                     <h3 class="text-2xl font-semibold mb-6">Get Your Free Demo Image</h3>
                     <div class="space-y-4">
+                        <input type="hidden" name="form-name" value="automotive-free-demo">
                         <div class="grid md:grid-cols-2 gap-4">
                             <input type="text" name="name" placeholder="Your Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
                             <input type="email" name="email" placeholder="Business Email" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
@@ -768,6 +769,7 @@
             <!-- Automotive Package Selection Form -->
             <form netlify name="automotive-package" method="POST" class="space-y-6" onsubmit="showThankYou(event)">
                 <!-- Hidden package details -->
+                <input type="hidden" name="form-name" value="automotive-package">
                 <input type="hidden" name="selected-package" id="selectedPackage" value="">
                 <input type="hidden" name="package-price" id="selectedPrice" value="">
                 <input type="hidden" name="service-type" value="Automotive Staging">
