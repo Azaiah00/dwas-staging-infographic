@@ -616,6 +616,13 @@
                         <p class="font-bold text-deepwork-red">+$99</p>
                     </div>
                 </div>
+                
+                <!-- Custom Quote Button -->
+                <div class="text-center mt-8">
+                    <button onclick="openRealEstateCustomQuoteModal()" class="btn-glass-secondary text-white font-semibold px-8 py-3 rounded-lg">
+                        Get Custom Quote
+                    </button>
+                </div>
             </div>
         </section>
         
@@ -651,16 +658,13 @@
             <h2 class="text-5xl font-bold mb-6 shimmer">Ready to Transform Your Listings?</h2>
             <p class="mb-10 max-w-3xl mx-auto text-xl opacity-90 leading-relaxed">See the DeepWork difference for yourself. Upload one photo and we'll stage it for FREE. No commitment, no credit card required.</p>
             
-            <div class="max-w-2xl mx-auto">
-                <!-- Email Form using Netlify Forms -->
-                <form netlify name="newsletter-signup" method="POST" class="glass-input-container rounded-2xl p-6 mb-8" onsubmit="showNewsletterThankYou(event)">
-                    <div class="flex flex-col lg:flex-row gap-4">
-                        <input type="email" name="email" placeholder="Enter your professional email address" class="glass-input flex-1 px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
-                        <input type="hidden" name="form-name" value="newsletter-signup">
-                        <input type="hidden" name="_subject" value="New Newsletter Signup from DeepWork AI Website">
-                        <button type="submit" class="btn-glass-primary text-white font-bold px-8 py-4 rounded-lg text-lg whitespace-nowrap">Claim Free Staging</button>
-                    </div>
-                </form>
+            <div class="max-w-2xl mx-auto text-center">
+                <button onclick="openContactModal()" class="btn-glass-primary text-white font-bold px-12 py-5 rounded-lg text-xl mb-4">
+                    Claim Free Staging →
+                </button>
+                <p class="text-deepwork-light-gray text-lg mb-8">
+                    Get a professionally staged photo of your property within 24 hours - completely free!
+                </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <div class="flex items-center text-white opacity-90 glass p-3 rounded-lg">
@@ -912,6 +916,203 @@
         });
     </script>
 
+    <!-- Real Estate Custom Quote Modal -->
+    <div id="realEstateCustomQuoteModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Get Your Custom Real Estate Quote</h3>
+                <button onclick="closeRealEstateCustomQuoteModal()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Custom Quote Form -->
+            <form netlify name="real-estate-custom-quote" method="POST" class="space-y-6" onsubmit="showRealEstateCustomQuoteThankYou(event)">
+                <input type="hidden" name="form-name" value="real-estate-custom-quote">
+                <input type="hidden" name="service-type" value="Real Estate Custom Quote">
+                
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-red-500 to-cyan-400 flex items-center justify-center">
+                        <span class="text-2xl text-white">🏡</span>
+                    </div>
+                    <p class="text-deepwork-light-gray">
+                        Tell us about your specific needs and we'll create a custom real estate staging package for you.
+                    </p>
+                </div>
+                
+                <!-- Client Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Your Name *</label>
+                        <input type="text" name="name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Business Email *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Agency/Company Name *</label>
+                        <input type="text" name="agency" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Phone Number</label>
+                        <input type="tel" name="phone" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                </div>
+                
+                <!-- Business Details -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Monthly Listings Volume *</label>
+                        <select name="monthly-listings" required 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <option value="">Select monthly volume</option>
+                            <option value="1-5">1-5 listings</option>
+                            <option value="6-15">6-15 listings</option>
+                            <option value="16-30">16-30 listings</option>
+                            <option value="31-50">31-50 listings</option>
+                            <option value="50plus">50+ listings</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Budget Range</label>
+                        <select name="budget-range" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <option value="">Select budget range</option>
+                            <option value="200-500">$200 - $500/month</option>
+                            <option value="500-1000">$500 - $1,000/month</option>
+                            <option value="1000-2500">$1,000 - $2,500/month</option>
+                            <option value="2500plus">$2,500+/month</option>
+                            <option value="per-listing">Per listing pricing</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Property Types -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-3">Property Types (Check all that apply)</label>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="property-types" value="residential-homes" class="mr-2">
+                            Residential Homes
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="property-types" value="luxury-estates" class="mr-2">
+                            Luxury Estates
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="property-types" value="condos-apartments" class="mr-2">
+                            Condos & Apartments
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="property-types" value="commercial-properties" class="mr-2">
+                            Commercial Properties
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="property-types" value="vacant-land" class="mr-2">
+                            Vacant Land
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="property-types" value="new-construction" class="mr-2">
+                            New Construction
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Services Needed -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-3">Services Needed (Check all that apply)</label>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="virtual-staging" class="mr-2">
+                            Virtual Staging
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="video-walkthroughs" class="mr-2">
+                            Video Walkthroughs
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="custom-branding" class="mr-2">
+                            Custom Branding Integration
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="photography-enhancement" class="mr-2">
+                            Photography Enhancement
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="social-media-content" class="mr-2">
+                            Social Media Content
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="rush-delivery" class="mr-2">
+                            Rush Delivery Options
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="other" class="mr-2">
+                            Other (specify below)
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Current Challenges -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Current Marketing Challenges</label>
+                    <textarea name="challenges" rows="3" placeholder="What marketing challenges are you facing with property listings? (e.g., slow sales, low engagement, empty spaces looking unappealing...)"
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                </div>
+                
+                <!-- Project Details -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Specific Requirements & Goals</label>
+                    <textarea name="requirements" rows="4" placeholder="Tell us about your specific needs, goals, target market, and any special requirements for your custom solution..."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                </div>
+                
+                <!-- Timeline -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Preferred Timeline</label>
+                    <select name="timeline" 
+                            class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <option value="">When would you like to start?</option>
+                        <option value="asap">ASAP</option>
+                        <option value="1-week">Within 1 Week</option>
+                        <option value="2-weeks">Within 2 Weeks</option>
+                        <option value="1-month">Within 1 Month</option>
+                        <option value="flexible">Flexible Timeline</option>
+                    </select>
+                </div>
+                
+                <!-- Marketing Consent -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive real estate marketing insights and special offers from DeepWork AI
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closeRealEstateCustomQuoteModal()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Request Custom Quote →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Real Estate Custom Quote Request">
+            </form>
+        </div>
+    </div>
+
     <!-- Package Selection Modal -->
     <div id="packageModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
         <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
@@ -1042,6 +1243,129 @@
                 
                 <!-- Hidden fields for Netlify -->
                 <input type="hidden" name="_subject" value="New Real Estate Staging Package Request">
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Get Your Free Demo Photo</h3>
+                <button onclick="closeContactModal()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Contact Demo Form -->
+            <form netlify name="contact-demo" method="POST" enctype="multipart/form-data" class="space-y-6" onsubmit="showContactThankYou(event)">
+                <input type="hidden" name="form-name" value="contact-demo">
+                <input type="hidden" name="service-type" value="Real Estate Staging">
+                
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <span class="text-2xl text-white">🏡</span>
+                    </div>
+                    <p class="text-deepwork-light-gray">
+                        Upload a photo of your property and we'll send back a professionally staged version for FREE!
+                    </p>
+                </div>
+                
+                <!-- Client Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Your Name *</label>
+                        <input type="text" name="name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Email Address *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Phone Number</label>
+                        <input type="tel" name="phone" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Company/Agency</label>
+                        <input type="text" name="company" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                    </div>
+                </div>
+                
+                <!-- Image Upload -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Upload Your Property Photo *</label>
+                    <div class="glass-input-container rounded-lg p-4">
+                        <input type="file" name="property-image" accept="image/*" required 
+                               class="w-full text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-deepwork-red file:text-white hover:file:bg-deepwork-orange transition-colors">
+                        <p class="text-deepwork-light-gray text-xs mt-2">
+                            Upload any property photo - interior or exterior. We'll transform it with professional staging!
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Property Details -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Property Type</label>
+                        <select name="property-type" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                            <option value="">Select property type</option>
+                            <option value="residential-single">Single Family Home</option>
+                            <option value="residential-condo">Condo/Townhouse</option>
+                            <option value="residential-luxury">Luxury Estate</option>
+                            <option value="commercial">Commercial Property</option>
+                            <option value="rental">Rental Property</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Room/Area Type</label>
+                        <select name="room-type" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red">
+                            <option value="">Select room type</option>
+                            <option value="living-room">Living Room</option>
+                            <option value="bedroom">Bedroom</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="dining-room">Dining Room</option>
+                            <option value="bathroom">Bathroom</option>
+                            <option value="exterior">Exterior</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Additional Details</label>
+                    <textarea name="description" rows="3" placeholder="Tell us about your property, target market, styling preferences, or any specific requirements..."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-deepwork-red"></textarea>
+                </div>
+                
+                <!-- Marketing Consent -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive staging tips and special offers from DeepWork AI
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closeContactModal()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Get Free Demo →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Contact Demo Request">
             </form>
         </div>
     </div>
@@ -1291,8 +1615,89 @@
         }
     });
 
-    // Newsletter signup thank you
-    function showNewsletterThankYou(event) {
+    // Contact modal functions
+    function openContactModal() {
+        const modal = document.getElementById('contactModal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactModal() {
+        const modal = document.getElementById('contactModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Show thank you message for contact demo
+    function showContactThankYou(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(() => {
+            const modal = document.getElementById('contactModal');
+            const clientName = formData.get('name');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                    <p class="text-deepwork-light-gray text-lg mb-6">
+                        Your free staging demo request has been submitted successfully!
+                    </p>
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                        <p class="text-white text-sm">
+                            <strong>What happens next?</strong><br>
+                            • We'll review your uploaded photo<br>
+                            • Apply professional AI staging<br>
+                            • Send the result to your email within 24 hours<br>
+                            • Include recommendations for your property<br>
+                            • No cost, no commitment!
+                        </p>
+                    </div>
+                    <button onclick="closeContactModal()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                        Awesome!
+                    </button>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again.');
+        });
+    }
+
+    // Close contact modal when clicking outside
+    document.getElementById('contactModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeContactModal();
+        }
+    });
+
+    // Real Estate Custom quote modal functions
+    function openRealEstateCustomQuoteModal() {
+        const modal = document.getElementById('realEstateCustomQuoteModal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeRealEstateCustomQuoteModal() {
+        const modal = document.getElementById('realEstateCustomQuoteModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Show thank you message for real estate custom quote
+    function showRealEstateCustomQuoteThankYou(event) {
         event.preventDefault();
         
         const form = event.target;
@@ -1305,24 +1710,33 @@
             body: new URLSearchParams(formData).toString()
         })
         .then(() => {
-            // Replace form with thank you message
-            form.innerHTML = `
-                <div class="text-center py-8">
+            const modal = document.getElementById('realEstateCustomQuoteModal');
+            const clientName = formData.get('name');
+            const agency = formData.get('agency');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
                     <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">You're All Set!</h3>
-                    <p class="text-white text-lg mb-6">
-                        Thank you for joining our mailing list! We'll send you staging tips and special offers.
+                    <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                    <p class="text-deepwork-light-gray text-lg mb-6">
+                        Your custom quote request for ${agency} has been submitted successfully!
                     </p>
-                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg">
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
                         <p class="text-white text-sm">
-                            <strong>Want to try our service now?</strong><br>
-                            Click "Get Free Demo Photo" above to upload a property photo and receive a professionally staged version within 24 hours!
+                            <strong>What happens next?</strong><br>
+                            • Our real estate specialists will review your requirements<br>
+                            • We'll prepare a detailed custom proposal<br>
+                            • Expect a personalized quote within 24-48 hours<br>
+                            • Includes pricing, timeline, and marketing strategy
                         </p>
                     </div>
+                    <button onclick="closeRealEstateCustomQuoteModal()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                        Perfect!
+                    </button>
                 </div>
             `;
         })
@@ -1330,6 +1744,13 @@
             alert('There was an error submitting your request. Please try again.');
         });
     }
+
+    // Close real estate custom quote modal when clicking outside
+    document.getElementById('realEstateCustomQuoteModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeRealEstateCustomQuoteModal();
+        }
+    });
     </script>
 </body>
 </html>

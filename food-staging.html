@@ -526,6 +526,19 @@
                     <button onclick="openPackageForm('full-feast', '$699', this)" class="w-full text-center btn-glass-secondary text-white font-semibold py-4 rounded-lg mt-auto">Go Full Feast</button>
                 </div>
             </div>
+            
+            <!-- Custom Quote Section -->
+            <div class="text-center mt-16">
+                <div class="max-w-2xl mx-auto mb-8">
+                    <h3 class="text-3xl font-bold text-white mb-4">Need Something Different?</h3>
+                    <p class="text-deepwork-light-gray text-lg">
+                        Large restaurant chain? Special dietary requirements? Unique concept? Let's create a custom package that fits your needs perfectly.
+                    </p>
+                </div>
+                <button onclick="openFoodCustomQuoteModal()" class="btn-glass-secondary text-white font-semibold px-8 py-4 rounded-lg text-lg">
+                    Get Custom Quote
+                </button>
+            </div>
         </section>
 
     </main>
@@ -538,17 +551,14 @@
                 Let us prove our value. Send us one photo from your menu and we'll send it back looking irresistible, completely free.
             </p>
             
-            <!-- Contact form -->
-            <div class="max-w-2xl mx-auto">
-                <form netlify name="food-free-demo" method="POST" enctype="multipart/form-data" class="glass-input-container rounded-2xl p-8" onsubmit="showFoodThankYou(event)">
-                    <h3 class="text-2xl font-semibold mb-6">Get Your Free Demo Photo</h3>
-                    <div class="space-y-4">
-                        <input type="hidden" name="form-name" value="food-free-demo">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <input type="text" name="name" placeholder="Your Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
-                            <input type="email" name="email" placeholder="Restaurant Email" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
-                        </div>
-                        <input type="text" name="restaurant" placeholder="Restaurant Name" class="glass-input w-full px-6 py-4 text-deepwork-dark rounded-lg focus:outline-none text-lg transition-all duration-300" required>
+            <!-- Contact CTA -->
+            <div class="max-w-2xl mx-auto text-center">
+                <button onclick="openFoodContactModal()" class="btn-glass-primary text-white font-bold px-12 py-5 rounded-lg text-xl mb-4">
+                    Get Your Free Demo Photo →
+                </button>
+                <p class="text-deepwork-light-gray text-lg mb-8">
+                    Upload any food photo and we'll make it irresistibly appetizing within 24 hours!
+                </p>
                         
                         <!-- Image Upload -->
                         <div>
@@ -727,6 +737,208 @@
             });
         });
     </script>
+
+    <!-- Food Custom Quote Modal -->
+    <div id="foodCustomQuoteModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div class="glass-card max-w-2xl w-full mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Get Your Custom Food Staging Quote</h3>
+                <button onclick="closeFoodCustomQuoteModal()" class="text-white hover:text-deepwork-red text-2xl">&times;</button>
+            </div>
+            
+            <!-- Custom Quote Form -->
+            <form netlify name="food-custom-quote" method="POST" class="space-y-6" onsubmit="showFoodCustomQuoteThankYou(event)">
+                <input type="hidden" name="form-name" value="food-custom-quote">
+                <input type="hidden" name="service-type" value="Food & Restaurant Custom Quote">
+                
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+                        <span class="text-2xl text-white">🍽️</span>
+                    </div>
+                    <p class="text-deepwork-light-gray">
+                        Tell us about your restaurant's unique needs and we'll create a custom food staging package that makes your dishes irresistible.
+                    </p>
+                </div>
+                
+                <!-- Client Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Your Name *</label>
+                        <input type="text" name="name" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Business Email *</label>
+                        <input type="email" name="email" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Restaurant/Business Name *</label>
+                        <input type="text" name="restaurant" required 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Phone Number</label>
+                        <input type="tel" name="phone" 
+                               class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                </div>
+                
+                <!-- Business Details -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Restaurant Type *</label>
+                        <select name="restaurant-type" required 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">Select restaurant type</option>
+                            <option value="fine-dining">Fine Dining</option>
+                            <option value="casual-dining">Casual Dining</option>
+                            <option value="fast-casual">Fast Casual</option>
+                            <option value="quick-service">Quick Service / Fast Food</option>
+                            <option value="bakery-cafe">Bakery / Café</option>
+                            <option value="food-truck">Food Truck</option>
+                            <option value="catering">Catering Company</option>
+                            <option value="chain">Restaurant Chain</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Menu Items Count</label>
+                        <select name="menu-size" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">Select menu size</option>
+                            <option value="10-25">10-25 items</option>
+                            <option value="26-50">26-50 items</option>
+                            <option value="51-100">51-100 items</option>
+                            <option value="100plus">100+ items</option>
+                            <option value="seasonal">Seasonal menu changes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Budget and Volume -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Monthly Photo Needs</label>
+                        <select name="monthly-volume" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">Select monthly volume</option>
+                            <option value="5-15">5-15 photos</option>
+                            <option value="16-30">16-30 photos</option>
+                            <option value="31-50">31-50 photos</option>
+                            <option value="50plus">50+ photos</option>
+                            <option value="one-time">One-time project</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-2">Budget Range</label>
+                        <select name="budget-range" 
+                                class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="">Select budget range</option>
+                            <option value="200-500">$200 - $500/month</option>
+                            <option value="500-1000">$500 - $1,000/month</option>
+                            <option value="1000-2500">$1,000 - $2,500/month</option>
+                            <option value="2500plus">$2,500+/month</option>
+                            <option value="per-photo">Per photo pricing</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Services Needed -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-3">Services Needed (Check all that apply)</label>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="food-styling" class="mr-2">
+                            Professional Food Styling
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="background-enhancement" class="mr-2">
+                            Background Enhancement
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="menu-design" class="mr-2">
+                            Menu Design Integration
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="social-media-content" class="mr-2">
+                            Social Media Content
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="video-content" class="mr-2">
+                            Video Content Creation
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="promotional-banners" class="mr-2">
+                            Promotional Banners
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="seasonal-campaigns" class="mr-2">
+                            Seasonal Campaigns
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="services" value="other" class="mr-2">
+                            Other (specify below)
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Current Challenges -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Current Food Photography Challenges</label>
+                    <textarea name="challenges" rows="3" placeholder="What challenges are you facing with your current food photography? (e.g., photos don't look appetizing, inconsistent lighting, expensive photoshoots...)"
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                </div>
+                
+                <!-- Special Requirements -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Special Requirements & Goals</label>
+                    <textarea name="requirements" rows="4" placeholder="Tell us about your specific needs: dietary restrictions to highlight, brand aesthetic, target audience, seasonal menus, delivery platforms, etc..."
+                              class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                </div>
+                
+                <!-- Timeline -->
+                <div>
+                    <label class="block text-white text-sm font-medium mb-2">Preferred Timeline</label>
+                    <select name="timeline" 
+                            class="glass-input w-full px-4 py-3 text-deepwork-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <option value="">When would you like to start?</option>
+                        <option value="asap">ASAP</option>
+                        <option value="1-week">Within 1 Week</option>
+                        <option value="2-weeks">Within 2 Weeks</option>
+                        <option value="1-month">Within 1 Month</option>
+                        <option value="flexible">Flexible Timeline</option>
+                    </select>
+                </div>
+                
+                <!-- Marketing Consent -->
+                <div>
+                    <label class="flex items-center text-white text-sm">
+                        <input type="checkbox" name="marketing-consent" class="mr-2">
+                        I'd like to receive food industry insights and special offers from DeepWork AI
+                    </label>
+                </div>
+                
+                <!-- Form submission -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="closeFoodCustomQuoteModal()" 
+                            class="flex-1 px-6 py-3 glass-dark text-white rounded-lg hover:bg-opacity-80 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 btn-glass-primary text-white rounded-lg font-semibold">
+                        Request Custom Quote →
+                    </button>
+                </div>
+                
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="_subject" value="New Food & Restaurant Custom Quote Request">
+            </form>
+        </div>
+    </div>
 
     <!-- Package Selection Modal -->
     <div id="packageModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm hidden z-50 flex items-center justify-center">
@@ -1019,6 +1231,75 @@
             alert('There was an error submitting your request. Please try again.');
         });
     }
+
+    // Food Custom quote modal functions
+    function openFoodCustomQuoteModal() {
+        const modal = document.getElementById('foodCustomQuoteModal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFoodCustomQuoteModal() {
+        const modal = document.getElementById('foodCustomQuoteModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Show thank you message for food custom quote
+    function showFoodCustomQuoteThankYou(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Submit to Netlify
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            const modal = document.getElementById('foodCustomQuoteModal');
+            const clientName = formData.get('name');
+            const restaurant = formData.get('restaurant');
+            
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full mx-4 p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Thank You, ${clientName}!</h3>
+                    <p class="text-deepwork-light-gray text-lg mb-6">
+                        Your custom quote request for ${restaurant} has been submitted successfully!
+                    </p>
+                    <div class="bg-deepwork-dark bg-opacity-30 p-4 rounded-lg mb-6">
+                        <p class="text-white text-sm">
+                            <strong>What happens next?</strong><br>
+                            • Our food styling specialists will review your requirements<br>
+                            • We'll prepare a detailed custom proposal<br>
+                            • Expect a personalized quote within 24-48 hours<br>
+                            • Includes pricing, timeline, and styling strategy
+                        </p>
+                    </div>
+                    <button onclick="closeFoodCustomQuoteModal()" class="btn-glass-primary text-white font-semibold px-8 py-3 rounded-lg">
+                        Perfect!
+                    </button>
+                </div>
+            `;
+        })
+        .catch(() => {
+            alert('There was an error submitting your request. Please try again.');
+        });
+    }
+
+    // Close food custom quote modal when clicking outside
+    document.getElementById('foodCustomQuoteModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeFoodCustomQuoteModal();
+        }
+    });
     </script>
 </body>
 </html>
